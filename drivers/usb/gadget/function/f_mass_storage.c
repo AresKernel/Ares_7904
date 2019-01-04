@@ -239,6 +239,8 @@ static const char fsg_string_interface[] = "Android Mass Storage";
 #include "storage_common.h"
 #include "f_mass_storage.h"
 
+extern struct device *create_function_device(char *name);
+
 /* Static strings, in UTF-8 (for simplicity we use only ASCII characters) */
 static struct usb_string		fsg_strings[] = {
 	{FSG_STRING_INTERFACE,		fsg_string_interface},
@@ -4123,6 +4125,10 @@ static struct usb_function_instance *fsg_alloc_inst(void)
 	}
 
 	config_group_init_type_name(&opts->func_inst.group, "", &fsg_func_type);
+
+	dev = create_function_device("f_mass_storage");
+	if (IS_ERR(dev))
+		return PTR_ERR(dev);
 
 	return &opts->func_inst;
 
