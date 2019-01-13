@@ -328,6 +328,16 @@ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
 quiet_cmd_mkdtimg = DTBOIMG $@
 cmd_mkdtimg = python2 $(srctree)/scripts/dtc/libfdt/mkdtboimg.py create $@ --page_size=2048 --custom0=0xff000000 $(filter-out FORCE,$^)
 
+# dtbtool (Exynos)
+# ---------------------------------------------------------------------------
+
+quiet_cmd_dtbtool_exynos = DTBTOOL $@
+cmd_dtbtool_exynos = $(objtree)/scripts/dtbtool_exynos/dtbtool \
+		--pagesize $(CONFIG_EXYNOS_DTBH_PAGE_SIZE) \
+		--platform $(CONFIG_EXYNOS_DTBH_PLATFORM_CODE) \
+		--subtype $(CONFIG_EXYNOS_DTBH_SUBTYPE_CODE) \
+		-o $@ $(sort $(filter-out FORCE,$^))
+
 # cat
 # ---------------------------------------------------------------------------
 # Concatentate multiple files together
