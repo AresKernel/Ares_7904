@@ -4081,6 +4081,7 @@ static struct usb_function_instance *fsg_alloc_inst(void)
 {
 	struct fsg_opts *opts;
 	struct fsg_lun_config config;
+	struct device *dev;
 	int rc;
 
 	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
@@ -4113,6 +4114,12 @@ static struct usb_function_instance *fsg_alloc_inst(void)
 	if (rc)
 		goto release_buffers;
 
+	dev = create_function_device("f_mass_storage");
+	if (IS_ERR(dev)) {
+		rc = -ENODEV;
+		goto release_buffers;
+	}
+
 	opts->lun0.lun = opts->common->luns[0];
 	opts->lun0.lun_id = 0;
 	config_group_init_type_name(&opts->lun0.group, "lun.0", &fsg_lun_type);
@@ -4125,10 +4132,6 @@ static struct usb_function_instance *fsg_alloc_inst(void)
 	}
 
 	config_group_init_type_name(&opts->func_inst.group, "", &fsg_func_type);
-
-	dev = create_function_device("f_mass_storage");
-	if (IS_ERR(dev))
-		return PTR_ERR(dev);
 
 	return &opts->func_inst;
 
