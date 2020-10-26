@@ -361,6 +361,7 @@ CONFIG_ARCH_EXYNOS7=y
 # Exynos dtbo image build tool
 #
 CONFIG_MACH_EXYNOS7885_M20_GLOBAL=y
+CONFIG_EXYNOS_DTBTOOL=y
 
 #
 # Bus support
