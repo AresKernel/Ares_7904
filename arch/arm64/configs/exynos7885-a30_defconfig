@@ -360,6 +360,11 @@ CONFIG_ARCH_EXYNOS7=y
 # CONFIG_ZONE_MOVABLE is not set
 
 #
+# Exynos dtbo image build tool
+#
+CONFIG_MACH_EXYNOS7885_A30_GLOBAL=y
+
+#
 # Bus support
 #
 # CONFIG_PCI is not set
