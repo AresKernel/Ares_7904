@@ -1101,7 +1101,7 @@ static int __init cpufreq_read_cpu_min_c1(char *cpu_min_c1)
 }
 __setup("cpu_min_c1=", cpufreq_read_cpu_min_c1);
 
-static unsigned long arg_cpu_max_c1 = 1586000;
+static unsigned long arg_cpu_max_c1 = 1690000;
 
 static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1)
 {
