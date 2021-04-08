@@ -400,18 +400,3 @@
 		};
 	};
 };
-
-&reserved_memory {
-	#address-cells = <2>;
-	#size-cells = <1>;
-
-	modem_if {
-		compatible = "exynos,modem_if";
-		reg = <0x0 0xF5400000 0x7800000>;
-	};
-
-	cp_ram_logging {
-		compatible = "exynos,cp_ram_logging";
-		reg = <0x0 0xFCC00000 0x2000000>;
-	};
-};
