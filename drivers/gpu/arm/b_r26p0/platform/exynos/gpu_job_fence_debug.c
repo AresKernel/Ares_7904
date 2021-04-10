@@ -148,7 +148,7 @@ int gpu_job_fence_status_dump(struct sync_fence *timeout_fence)
 		kbase_gpu_dump_slots(kbdev);
 	}
 
-	if (timeout_fence != NULL)
+	if (timeout_fence != NULL && dev)
 		dev_warn(dev, "Timeout Fence *** [%p] %s: %s\n", timeout_fence, timeout_fence->name, gpu_fence_status_to_string(atomic_read(&timeout_fence->status)));
 
 	kbase_dev_list_put(kbdev_list);
