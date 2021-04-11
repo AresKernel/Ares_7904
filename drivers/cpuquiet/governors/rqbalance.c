@@ -1045,11 +1045,6 @@ static void rqbalance_stop(void)
 	cpufreq_unregister_notifier(&balanced_cpufreq_nb,
 		CPUFREQ_TRANSITION_NOTIFIER);
 
-	cpufreq_unregister_notifier(&frequency_limits_nb,
-		CPUFREQ_POLICY_NOTIFIER);
-
-	cpuhp_remove_state_nocalls(CPUHP_AP_ONLINE);
-
 	unregister_pm_notifier(&pm_notifier_block);
 
 	/* now we can force the governor to be idle */
@@ -1062,23 +1057,6 @@ static void rqbalance_stop(void)
 	kfree(rq_data);
 
 	rqbalance_sysfs_exit();
-}
-
-static int rqbalance_cfl_start(void)
-{
-	int rc = 0;
-
-	cpufreq_register_notifier(&frequency_limits_nb,
-		CPUFREQ_POLICY_NOTIFIER);
-	
-	rc = cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE,
-		"rqbalance_cpuhp", cfl_hotplug_notify, NULL);
-	if (rc < 0)
-		goto end;
-	rqb_hp_online = rc;
-	rc = 0;
-end:
-	return rc;
 }
 
 static int rqbalance_start(void)
@@ -1121,10 +1099,6 @@ static int rqbalance_start(void)
 
 	cpufreq_register_notifier(&balanced_cpufreq_nb,
 		CPUFREQ_TRANSITION_NOTIFIER);
-
-	err = rqbalance_cfl_start();
-	if (err)
-		pr_warn("%s: Couldn't start RQB-CFL!\n", __func__);
 
 	init_timer(&load_timer);
 	load_timer.function = calculate_load_timer;
